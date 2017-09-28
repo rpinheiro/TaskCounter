@@ -29,32 +29,7 @@ namespace TaskManagement
                 comboBox1.DisplayMember = "IssueName";
                 comboBox1.ValueMember = "Id";
             }
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                using (IssueContext db = new IssueContext())
-                {
-                    string issueName = this.textBox1.Text;
-
-                    Issue newIssue = new Issue();
-                    newIssue.IssueName = issueName;
-
-                    db.Issues.Add(newIssue);
-                    db.SaveChanges();
-
-                    CarregarComboJiras();
-
-                    MessageBox.Show("Jira cadastrado");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Erro ao cadastrar o jira: " + ex.Message);
-            }
-        }
+        }        
 
         private void button3_Click(object sender, EventArgs e)
         {
@@ -92,6 +67,19 @@ namespace TaskManagement
             {
                 row.Cells[2].Value = DateTime.Now.ToString();
             }
+        }
+
+        private void cadastroToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormAddData formAddJira = new FormAddData();
+            if ( formAddJira.ShowDialog() == DialogResult.OK ) 
+                CarregarComboJiras();
+        }
+
+        private void relatórioToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormReport formReport = new FormReport();
+            formReport.ShowDialog();
         }
 
     }
