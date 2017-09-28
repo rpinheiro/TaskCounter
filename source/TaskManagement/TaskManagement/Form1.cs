@@ -44,7 +44,7 @@ namespace TaskManagement
                     {
                         IssueExecution issueExecution = new IssueExecution();
                         issueExecution.Issue = issue;
-                        issueExecution.StartDate = DateTime.Now.ToString();
+                        issueExecution.StartDate = DateTime.Now;
 
                         db.IssueExecutions.Add(issueExecution);
                         db.SaveChanges();

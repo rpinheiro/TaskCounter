@@ -44,14 +44,14 @@ namespace TaskManagement
                 if( this.dateTimePickerStart.Value != null )
                 {
                     string startDateString = this.dateTimePickerStart.Value.Date.ToString("yyyy-MM-dd");
-                    resultado = resultado.Where(c => c.StartDate.Contains(startDateString));
+                    resultado = resultado.Where(c => c.StartDate >= this.dateTimePickerStart.Value);
                 }
 
-                if (this.dateTimePickerEnd.Value != null)
-                {
-                    string endDateString = this.dateTimePickerEnd.Value.Date.ToString("yyyy-MM-dd"); 
-                    resultado = resultado.Where(c => c.EndDate != null && c.EndDate.Contains(endDateString));
-                }
+                //if (this.dateTimePickerEnd.Value != null)
+                //{
+                //    string endDateString = this.dateTimePickerEnd.Value.Date.ToString("yyyy-MM-dd"); 
+                //    resultado = resultado.Where(c => c.EndDate != null && c.EndDate.Contains(endDateString));
+                //}
 
                 IList<IssueExecution> listaTarefas = resultado.ToList();
                                 
