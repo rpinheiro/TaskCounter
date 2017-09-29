@@ -65,7 +65,18 @@ namespace TaskManagement
         {
             foreach (DataGridViewRow row in this.dataGridView1.SelectedRows)
             {
-                row.Cells[2].Value = DateTime.Now.ToString();
+                using(IssueContext db = new IssueContext())
+                {
+                    string nomeTarefa = row.Cells[0].Value.ToString();
+                    IssueExecution issue = db.IssueExecutions.Where(c => c.Issue.IssueName == nomeTarefa).ToList().FirstOrDefault();
+                    if (issue != null)
+                    {
+                        DateTime terminateExecution = DateTime.Now;
+                        issue.EndDate = terminateExecution;
+                        db.SaveChanges();
+                        row.Cells[2].Value = terminateExecution.ToString();
+                    }
+                }
             }
         }
 

@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using TaskManagement.BD.Entity;
 
+
 namespace TaskManagement
 {
     public partial class FormReport : Form
@@ -16,7 +17,7 @@ namespace TaskManagement
         {
             InitializeComponent();
 
-            CarregarComboJiras();            
+            CarregarComboJiras();
 
         }
 
@@ -38,23 +39,32 @@ namespace TaskManagement
             using (IssueContext db = new IssueContext())
             {
                 var resultado = db.IssueExecutions.AsQueryable();
+
                 if (this.comboBox1.SelectedIndex > -1)
                     resultado = resultado.Where(c => c.Issue.Id == (int)this.comboBox1.SelectedValue);
 
-                if( this.dateTimePickerStart.Value != null )
+
+
+                if (this.dateTimePickerStart.Value != null)
                 {
-                    string startDateString = this.dateTimePickerStart.Value.Date.ToString("yyyy-MM-dd");
-                    resultado = resultado.Where(c => c.StartDate >= this.dateTimePickerStart.Value);
+                    DateTime tempDate = new DateTime(this.dateTimePickerStart.Value.Year, this.dateTimePickerStart.Value.Month, this.dateTimePickerStart.Value.Day, 0, 0, 0);
+                    resultado = resultado.Where(c => c.StartDate >= tempDate);
                 }
 
-                //if (this.dateTimePickerEnd.Value != null)
-                //{
-                //    string endDateString = this.dateTimePickerEnd.Value.Date.ToString("yyyy-MM-dd"); 
-                //    resultado = resultado.Where(c => c.EndDate != null && c.EndDate.Contains(endDateString));
-                //}
+                if (this.dateTimePickerEnd.Value != null)
+                {
+                    DateTime tempDate = new DateTime(this.dateTimePickerEnd.Value.Year, this.dateTimePickerEnd.Value.Month, this.dateTimePickerEnd.Value.Day, 23, 59, 59);
+                    resultado = resultado.Where(c => c.EndDate != null && c.EndDate.Value <= tempDate);
+                }
 
-                IList<IssueExecution> listaTarefas = resultado.ToList();
-                                
+                var listaTarefas = resultado.ToList();
+
+                var listaResultado = listaTarefas.Select(c => new { CodigoJira = c.Issue.IssueName, TempoGasto = ((TimeSpan)(c.EndDate - c.StartDate)).TotalMinutes })
+                         .GroupBy(g => new { g.CodigoJira, g.TempoGasto })
+                         .Select(g => new { CodigoJira = g.Key.CodigoJira, Total = g.Sum(z => z.TempoGasto) }).ToList();
+
+
+
             }
 
         }
