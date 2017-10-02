@@ -42,22 +42,26 @@ namespace TaskManagement
                     Issue issue = db.Issues.Where(c => c.Id == id).ToList().FirstOrDefault();
                     if (issue != null)
                     {
-                        if (issue.EndDateTime == null)
+                        IssueExecution issueExecution = db.IssueExecutions.Where(c => c.Issue.Id == id && c.EndDate == null).ToList().FirstOrDefault();
+                        if (issueExecution != null)
                         {
                             MessageBox.Show("Esta tarefa já está em andamento");
                             return;
                         }
-                        IssueExecution issueExecution = new IssueExecution();
-                        issueExecution.Issue = issue;
-                        issueExecution.StartDateTime = DateTime.Now;
 
-                        db.IssueExecutions.Add(issueExecution);
+                        IssueExecution newIssueExecution = new IssueExecution();
+                        newIssueExecution.Issue = issue;
+                        newIssueExecution.StartDateTime = DateTime.Now;
+
+                        db.IssueExecutions.Add(newIssueExecution);
                         db.SaveChanges();
 
                         DataGridViewRow dataRow = (DataGridViewRow)this.dataGridView1.Rows[0].Clone();
-                        dataRow.Cells[0].Value = issue.IssueName;
-                        dataRow.Cells[1].Value = issueExecution.StartDate;
-                        dataRow.Cells[2].Value = string.Empty;
+                        dataRow.Cells[0].Value = newIssueExecution.Id;
+                        dataRow.Cells[1].Value = newIssueExecution.Issue.IssueName;
+                        dataRow.Cells[2].Value = newIssueExecution.StartDate;
+                        dataRow.Cells[3].Value = string.Empty;
+                        
 
                         dataGridView1.Rows.Add(dataRow);
                     }
@@ -72,14 +76,15 @@ namespace TaskManagement
             {
                 using(IssueContext db = new IssueContext())
                 {
-                    string nomeTarefa = row.Cells[0].Value.ToString();
-                    IssueExecution issue = db.IssueExecutions.Where(c => c.Issue.IssueName == nomeTarefa && c.EndDate == null).ToList().FirstOrDefault();
+                    int idTarefa = Convert.ToInt32(row.Cells[0].Value.ToString());
+                    
+                    IssueExecution issue = db.IssueExecutions.Where(c => c.Id == idTarefa  && c.EndDate == null).ToList().FirstOrDefault();
                     if (issue != null)
                     {
                         DateTime terminateExecution = DateTime.Now;
                         issue.EndDateTime = terminateExecution;
                         db.SaveChanges();
-                        row.Cells[2].Value = terminateExecution.ToString();
+                        row.Cells[3].Value = terminateExecution.ToString();
                     }
                 }
             }
