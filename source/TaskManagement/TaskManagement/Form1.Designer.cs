@@ -32,14 +32,16 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.CodigoJira = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Inicio = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FIm = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.jiraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cadastroToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.label1 = new System.Windows.Forms.Label();
             this.relatórioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.label1 = new System.Windows.Forms.Label();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.CodigoJira = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Inicio = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FIm = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -47,14 +49,14 @@
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(12, 81);
+            this.comboBox1.Location = new System.Drawing.Point(12, 54);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(242, 21);
             this.comboBox1.TabIndex = 0;
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(341, 81);
+            this.button2.Location = new System.Drawing.Point(341, 54);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 5;
@@ -64,7 +66,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(260, 81);
+            this.button3.Location = new System.Drawing.Point(260, 54);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 6;
@@ -80,25 +82,10 @@
             this.CodigoJira,
             this.Inicio,
             this.FIm});
-            this.dataGridView1.Location = new System.Drawing.Point(15, 128);
+            this.dataGridView1.Location = new System.Drawing.Point(15, 151);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(401, 150);
+            this.dataGridView1.Size = new System.Drawing.Size(623, 317);
             this.dataGridView1.TabIndex = 7;
-            // 
-            // CodigoJira
-            // 
-            this.CodigoJira.HeaderText = "Codigo Jira";
-            this.CodigoJira.Name = "CodigoJira";
-            // 
-            // Inicio
-            // 
-            this.Inicio.HeaderText = "Inicio";
-            this.Inicio.Name = "Inicio";
-            // 
-            // FIm
-            // 
-            this.FIm.HeaderText = "Fim";
-            this.FIm.Name = "FIm";
             // 
             // menuStrip1
             // 
@@ -106,7 +93,7 @@
             this.jiraToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(545, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(650, 24);
             this.menuStrip1.TabIndex = 8;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -122,31 +109,73 @@
             // cadastroToolStripMenuItem
             // 
             this.cadastroToolStripMenuItem.Name = "cadastroToolStripMenuItem";
-            this.cadastroToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.cadastroToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
             this.cadastroToolStripMenuItem.Text = "Cadastro";
             this.cadastroToolStripMenuItem.Click += new System.EventHandler(this.cadastroToolStripMenuItem_Click);
+            // 
+            // relatórioToolStripMenuItem
+            // 
+            this.relatórioToolStripMenuItem.Name = "relatórioToolStripMenuItem";
+            this.relatórioToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
+            this.relatórioToolStripMenuItem.Text = "Relatório";
+            this.relatórioToolStripMenuItem.Click += new System.EventHandler(this.relatórioToolStripMenuItem_Click);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 51);
+            this.label1.Location = new System.Drawing.Point(12, 24);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(55, 13);
             this.label1.TabIndex = 9;
             this.label1.Text = "Contagem";
             // 
-            // relatórioToolStripMenuItem
+            // checkBox1
             // 
-            this.relatórioToolStripMenuItem.Name = "relatórioToolStripMenuItem";
-            this.relatórioToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.relatórioToolStripMenuItem.Text = "Relatório";
-            this.relatórioToolStripMenuItem.Click += new System.EventHandler(this.relatórioToolStripMenuItem_Click);
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(15, 115);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(169, 17);
+            this.checkBox1.TabIndex = 10;
+            this.checkBox1.Text = "Mostrar tarefas em andamento";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
+            // CodigoJira
+            // 
+            this.CodigoJira.DataPropertyName = "CodigoJira";
+            this.CodigoJira.HeaderText = "Codigo Jira";
+            this.CodigoJira.Name = "CodigoJira";
+            // 
+            // Inicio
+            // 
+            this.Inicio.DataPropertyName = "StartTime";
+            this.Inicio.HeaderText = "Inicio";
+            this.Inicio.Name = "Inicio";
+            // 
+            // FIm
+            // 
+            this.FIm.DataPropertyName = "EndTime";
+            this.FIm.HeaderText = "Fim";
+            this.FIm.Name = "FIm";
+            // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Location = new System.Drawing.Point(15, 92);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(91, 17);
+            this.checkBox2.TabIndex = 11;
+            this.checkBox2.Text = "Ultimos 7 dias";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            this.checkBox2.CheckedChanged += new System.EventHandler(this.checkBox2_CheckedChanged);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(545, 415);
+            this.ClientSize = new System.Drawing.Size(650, 480);
+            this.Controls.Add(this.checkBox2);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.button3);
@@ -170,14 +199,16 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CodigoJira;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Inicio;
-        private System.Windows.Forms.DataGridViewTextBoxColumn FIm;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem jiraToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cadastroToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem relatórioToolStripMenuItem;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CodigoJira;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Inicio;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FIm;
+        private System.Windows.Forms.CheckBox checkBox2;
     }
 }
 

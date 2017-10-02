@@ -31,12 +31,11 @@
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.button2 = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.CodigoJira = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Inicio = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FIm = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label1 = new System.Windows.Forms.Label();
             this.dateTimePickerStart = new System.Windows.Forms.DateTimePicker();
             this.dateTimePickerEnd = new System.Windows.Forms.DateTimePicker();
+            this.CodigoJira = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TempoTotal = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -64,27 +63,11 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.CodigoJira,
-            this.Inicio,
-            this.FIm});
+            this.TempoTotal});
             this.dataGridView1.Location = new System.Drawing.Point(9, 202);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(524, 150);
             this.dataGridView1.TabIndex = 7;
-            // 
-            // CodigoJira
-            // 
-            this.CodigoJira.HeaderText = "Codigo Jira";
-            this.CodigoJira.Name = "CodigoJira";
-            // 
-            // Inicio
-            // 
-            this.Inicio.HeaderText = "Inicio";
-            this.Inicio.Name = "Inicio";
-            // 
-            // FIm
-            // 
-            this.FIm.HeaderText = "Fim";
-            this.FIm.Name = "FIm";
             // 
             // label1
             // 
@@ -108,6 +91,18 @@
             this.dateTimePickerEnd.Name = "dateTimePickerEnd";
             this.dateTimePickerEnd.Size = new System.Drawing.Size(242, 20);
             this.dateTimePickerEnd.TabIndex = 11;
+            // 
+            // CodigoJira
+            // 
+            this.CodigoJira.DataPropertyName = "CodigoJira";
+            this.CodigoJira.HeaderText = "Codigo Jira";
+            this.CodigoJira.Name = "CodigoJira";
+            // 
+            // TempoTotal
+            // 
+            this.TempoTotal.DataPropertyName = "TempoTotal";
+            this.TempoTotal.HeaderText = "TempoTotal";
+            this.TempoTotal.Name = "TempoTotal";
             // 
             // FormReport
             // 
@@ -133,12 +128,11 @@
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn CodigoJira;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Inicio;
-        private System.Windows.Forms.DataGridViewTextBoxColumn FIm;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DateTimePicker dateTimePickerStart;
         private System.Windows.Forms.DateTimePicker dateTimePickerEnd;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CodigoJira;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TempoTotal;
     }
 }
 

@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TaskManagement.BD.Services;
 
 namespace TaskManagement.BD.Entity
 {
@@ -19,9 +20,39 @@ namespace TaskManagement.BD.Entity
     {
         public int Id { get; set; }
         public string IssueName { get; set; }
-        public DateTime? StartDate { get; set; }
-        public DateTime? EndDate { get; set; }
+        public string StartDate { get; set; }
+        public string EndDate { get; set; }
 
+        [NotMapped]
+        public DateTime? StartDateTime
+        {
+            get
+            {
+                return BdService.ConvertStringToDateTime(StartDate);
+            }
+            set
+            {
+                if (value == null)
+                    StartDate = string.Empty;
+                else
+                    StartDate = BdService.ConvertDatetimeToString(value.Value);
+            }
+        }
+        [NotMapped]
+        public DateTime? EndDateTime
+        {
+            get
+            {
+                return BdService.ConvertStringToDateTime(EndDate);
+            }
+            set
+            {
+                if (value == null)
+                    EndDate = string.Empty;
+                else
+                    EndDate = BdService.ConvertDatetimeToString(value.Value);
+            }
+        }
         //[NotMapped]
         //public DateTime? StartDateTime
         //{

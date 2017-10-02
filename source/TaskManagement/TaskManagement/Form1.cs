@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using TaskManagement.BD.Entity;
+using TaskManagement.Repository;
 
 namespace TaskManagement
 {
@@ -36,15 +37,19 @@ namespace TaskManagement
             int id = (int)this.comboBox1.SelectedValue;
             if (id > 0)
             {
-
                 using (IssueContext db = new IssueContext())
                 {
                     Issue issue = db.Issues.Where(c => c.Id == id).ToList().FirstOrDefault();
                     if (issue != null)
                     {
+                        if (issue.EndDateTime == null)
+                        {
+                            MessageBox.Show("Esta tarefa já está em andamento");
+                            return;
+                        }
                         IssueExecution issueExecution = new IssueExecution();
                         issueExecution.Issue = issue;
-                        issueExecution.StartDate = DateTime.Now;
+                        issueExecution.StartDateTime = DateTime.Now;
 
                         db.IssueExecutions.Add(issueExecution);
                         db.SaveChanges();
@@ -68,11 +73,11 @@ namespace TaskManagement
                 using(IssueContext db = new IssueContext())
                 {
                     string nomeTarefa = row.Cells[0].Value.ToString();
-                    IssueExecution issue = db.IssueExecutions.Where(c => c.Issue.IssueName == nomeTarefa).ToList().FirstOrDefault();
+                    IssueExecution issue = db.IssueExecutions.Where(c => c.Issue.IssueName == nomeTarefa && c.EndDate == null).ToList().FirstOrDefault();
                     if (issue != null)
                     {
                         DateTime terminateExecution = DateTime.Now;
-                        issue.EndDate = terminateExecution;
+                        issue.EndDateTime = terminateExecution;
                         db.SaveChanges();
                         row.Cells[2].Value = terminateExecution.ToString();
                     }
@@ -91,6 +96,20 @@ namespace TaskManagement
         {
             FormReport formReport = new FormReport();
             formReport.ShowDialog();
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            TaskManagementRepository repositorio = new TaskManagementRepository();
+            var listaTarefasEmExecucacao = repositorio.ObterTarefas(this.checkBox1.Checked);
+            this.dataGridView1.DataSource = listaTarefasEmExecucacao;
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+            TaskManagementRepository repositorio = new TaskManagementRepository();
+            var listaTarefasEmExecucacao = repositorio.ObterTarefasUltimos7Dias();
+            this.dataGridView1.DataSource = listaTarefasEmExecucacao;
         }
 
     }

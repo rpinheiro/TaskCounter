@@ -85,6 +85,8 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModel\Filtro\ReportFilter.cs" />
+    <Compile Include="ViewModel\ReportViewModel.cs" />
     <EmbeddedResource Include="FormReport.resx">
       <DependentUpon>FormReport.cs</DependentUpon>
     </EmbeddedResource>
@@ -121,6 +123,10 @@
     <ProjectReference Include="..\TaskManagement.BD\TaskManagement.BD.csproj">
       <Project>{04583875-8080-4202-9c14-5a6896466768}</Project>
       <Name>TaskManagement.BD</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TaskManagement.Repository\TaskManagement.Repository.csproj">
+      <Project>{33f1ca00-c1a5-4f40-b23b-ff5f729c1f4d}</Project>
+      <Name>TaskManagement.Repository</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
