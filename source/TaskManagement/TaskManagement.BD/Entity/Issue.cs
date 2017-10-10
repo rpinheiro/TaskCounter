@@ -14,6 +14,12 @@ namespace TaskManagement.BD.Entity
     {
         public DbSet<Issue> Issues { get; set; }
         public DbSet<IssueExecution> IssueExecutions { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            Database.SetInitializer<IssueContext>(null);
+            base.OnModelCreating(modelBuilder);
+        }
     }
 
     public class Issue

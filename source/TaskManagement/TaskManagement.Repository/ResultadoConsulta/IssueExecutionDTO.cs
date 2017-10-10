@@ -12,5 +12,7 @@ namespace TaskManagement.Repository.ResultadoConsulta
         public string CodigoJira { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime? EndTime { get; set; }
+
+        public int CodigoTarefaPai { get; set; }
     }
 }

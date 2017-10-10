@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ResultadoConsulta\IssueDTO.cs" />
     <Compile Include="ResultadoConsulta\IssueExecutionDTO.cs" />
     <Compile Include="ResultadoConsulta\ReportFilterDTO.cs" />
     <Compile Include="ResultadoConsulta\ReportDTO.cs" />

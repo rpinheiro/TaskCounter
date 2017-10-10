@@ -30,70 +30,50 @@ namespace TaskManagement
                 comboBox1.DisplayMember = "IssueName";
                 comboBox1.ValueMember = "Id";
             }
-        }        
+        }
 
         private void button3_Click(object sender, EventArgs e)
         {
             int id = (int)this.comboBox1.SelectedValue;
             if (id > 0)
             {
-                using (IssueContext db = new IssueContext())
+                TaskManagementRepository repositorio = new TaskManagementRepository();
+                IssueExecution tarefaEmAndamento = repositorio.ObterTarefaEmAndamento(id);
+                if (tarefaEmAndamento != null)
                 {
-                    Issue issue = db.Issues.Where(c => c.Id == id).ToList().FirstOrDefault();
-                    if (issue != null)
-                    {
-                        IssueExecution issueExecution = db.IssueExecutions.Where(c => c.Issue.Id == id && c.EndDate == null).ToList().FirstOrDefault();
-                        if (issueExecution != null)
-                        {
-                            MessageBox.Show("Esta tarefa já está em andamento");
-                            return;
-                        }
-
-                        IssueExecution newIssueExecution = new IssueExecution();
-                        newIssueExecution.Issue = issue;
-                        newIssueExecution.StartDateTime = DateTime.Now;
-
-                        db.IssueExecutions.Add(newIssueExecution);
-                        db.SaveChanges();
-
-                        DataGridViewRow dataRow = (DataGridViewRow)this.dataGridView1.Rows[0].Clone();
-                        dataRow.Cells[0].Value = newIssueExecution.Id;
-                        dataRow.Cells[1].Value = newIssueExecution.Issue.IssueName;
-                        dataRow.Cells[2].Value = newIssueExecution.StartDate;
-                        dataRow.Cells[3].Value = string.Empty;
-                        
-
-                        dataGridView1.Rows.Add(dataRow);
-                    }
-
+                    MessageBox.Show("Esta tarefa já está em andamento");
+                    return;
                 }
+
+                repositorio.IniciarAtendimentoTarefa(id);
+                var listaTarefasEmExecucacao = repositorio.ObterTarefas(true);
+                this.dataGridView1.DataSource = listaTarefasEmExecucacao.Select(c => new { c.Id, c.CodigoJira, c.StartTime, c.EndTime }).ToList();             
             }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
+            if (this.dataGridView1.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Selecione uma ou mais linhas para encerrar o atendimento.");
+                return;
+            }
+
+            TaskManagementRepository repositorio = new TaskManagementRepository();
             foreach (DataGridViewRow row in this.dataGridView1.SelectedRows)
             {
-                using(IssueContext db = new IssueContext())
-                {
-                    int idTarefa = Convert.ToInt32(row.Cells[0].Value.ToString());
-                    
-                    IssueExecution issue = db.IssueExecutions.Where(c => c.Id == idTarefa  && c.EndDate == null).ToList().FirstOrDefault();
-                    if (issue != null)
-                    {
-                        DateTime terminateExecution = DateTime.Now;
-                        issue.EndDateTime = terminateExecution;
-                        db.SaveChanges();
-                        row.Cells[3].Value = terminateExecution.ToString();
-                    }
-                }
+                int idTarefa = Convert.ToInt32(row.Cells[0].Value.ToString());
+                repositorio.EncerrarAtendimentoTarefa(idTarefa);
             }
+
+            var listaTarefasEmExecucacao = repositorio.ObterTarefas(true);
+            this.dataGridView1.DataSource = listaTarefasEmExecucacao;
         }
 
         private void cadastroToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FormAddData formAddJira = new FormAddData();
-            if ( formAddJira.ShowDialog() == DialogResult.OK ) 
+            if (formAddJira.ShowDialog() == DialogResult.OK)
                 CarregarComboJiras();
         }
 
@@ -103,18 +83,52 @@ namespace TaskManagement
             formReport.ShowDialog();
         }
 
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-            TaskManagementRepository repositorio = new TaskManagementRepository();
-            var listaTarefasEmExecucacao = repositorio.ObterTarefas(this.checkBox1.Checked);
-            this.dataGridView1.DataSource = listaTarefasEmExecucacao;
-        }
-
-        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
             TaskManagementRepository repositorio = new TaskManagementRepository();
             var listaTarefasEmExecucacao = repositorio.ObterTarefasUltimos7Dias();
-            this.dataGridView1.DataSource = listaTarefasEmExecucacao;
+            this.dataGridView1.DataSource = listaTarefasEmExecucacao.Select(c => new { c.Id, c.CodigoJira, c.StartTime, c.EndTime }).ToList();
+        }
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+            TaskManagementRepository repositorio = new TaskManagementRepository();
+            var listaTarefasEmExecucacao = repositorio.ObterTarefas(true);
+            this.dataGridView1.DataSource = listaTarefasEmExecucacao.Select(c => new { c.Id, c.CodigoJira, c.StartTime, c.EndTime }).ToList();
+        }
+
+        private void editarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormEditData formEdit = new FormEditData();
+            formEdit.ShowDialog();
+        }
+
+        private void excluirToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormDeleteData formDelete = new FormDeleteData();
+            formDelete.ShowDialog();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int id = (int)this.comboBox1.SelectedValue;
+                if (id > 0)
+                {
+                    if (MessageBox.Show("Tem certeza que deseja remover a tarefa " + this.comboBox1.SelectedText + " ?", "Aviso", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        TaskManagementRepository repositorio = new TaskManagementRepository();
+                        repositorio.RemoverTarefaPai(id);
+                    }
+                    MessageBox.Show("Tarefa removida com sucesso.");
+                    CarregarComboJiras();
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show("Erro ao remover a tarefa: " + ex.Message);
+            }
         }
 
     }
